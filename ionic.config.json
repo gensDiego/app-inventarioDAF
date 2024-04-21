@@ -1,0 +1,7 @@
+{
+  "name": "app-inventarioDAF",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
