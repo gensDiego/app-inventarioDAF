@@ -1,7 +1,7 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
+<ion-header>
+  <ion-toolbar class="header-toolbar">
     <ion-title>
-      Inventario DAF - Inicio
+      <img src="\assets\images\Da.png" alt="Logo">
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,18 +13,33 @@
     </ion-toolbar>
   </ion-header>
 
+  <div class="empleado">
+    <img src="\assets\images\EMP.png" alt="">
+  </div>
+
   <div class="form-container">
-    <ion-item>
-      <ion-label position="floating">Nombre de usuario</ion-label>
-      <ion-input type="text" [(ngModel)]="username"></ion-input>
+    <ion-item class="input">
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input type="text" [(ngModel)]="loginFormData.email"></ion-input>
+      <ion-icon name="person" slot="start"></ion-icon>
     </ion-item>
 
-    <ion-item>
+    <ion-item class="input">
       <ion-label position="floating">Contraseña</ion-label>
-      <ion-input type="password" [(ngModel)]="password"></ion-input>
+      <ion-input type="password" [(ngModel)]="loginFormData.password"></ion-input>
+      <ion-icon name="lock-closed" slot="start"></ion-icon>
     </ion-item>
 
-    <ion-button expand="block" color="primary" (click)="register()">Registrarse</ion-button>
-    <ion-button expand="block" color="secondary" (click)="login()">Iniciar sesión</ion-button>
+    <div class="container">
+      <div class="button-container">
+        <ion-button shape="round" color="dark" (click)="login()" class="custom-button">Iniciar sesión</ion-button>
+      </div>
+    
+      <div class="link-container">
+        <div class="link">
+          <a href="/register" class="custom-link">Registrarse</a>
+        </div>
+      </div>
+    </div>
   </div>
 </ion-content>
