@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Registro</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="form-container">
+    <ion-item class="input">
+      <ion-label position="floating">Nombre</ion-label>
+      <ion-input type="text" [(ngModel)]="registerFormData.firstName" name="firstName" required></ion-input>
+    </ion-item>
+
+    <ion-item class="input">
+      <ion-label position="floating">Apellido</ion-label>
+      <ion-input type="text" [(ngModel)]="registerFormData.lastName" name="lastName" required></ion-input>
+    </ion-item>
+
+    <ion-item class="input">
+      <ion-label position="floating">Fecha de Nacimiento</ion-label>
+      <ion-input type="date" [(ngModel)]="registerFormData.birthDate" name="birthDate" required></ion-input>
+    </ion-item>
+
+    <ion-item class="input">
+      <ion-label position="floating">Correo Electrónico</ion-label>
+      <ion-input type="email" [(ngModel)]="registerFormData.email" name="email" required></ion-input>
+    </ion-item>
+
+    <ion-item class="input">
+      <ion-label position="floating">Contraseña</ion-label>
+      <ion-input type="password" [(ngModel)]="registerFormData.password" name="password" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" color="primary" (click)="register()">Registrarse</ion-button>
+  </div>
+</ion-content>
