@@ -38,17 +38,20 @@
 
 
 ion-footer {
-  
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    color: #fff;
-    text-align: center;
-    padding: 0px; 
-  }
+  position: fixed; /* Cambia de fixed a relative */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  margin-top: 100px;
+ /* Añadir un color de fondo para el footer */
+}
+
 
 // Fondo de la página
 ion-content {
   --ion-background-color: #f0f0f0; /* Cambia el color de fondo */
 }
+
+

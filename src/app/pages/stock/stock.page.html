@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Stock</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <div class="toolbar">
+          <ion-item>
+            <ion-label>Sucursal</ion-label>
+            <ion-select placeholder="Seleccionar">
+              <ion-select-option value="sucursal1">Sucursal 1</ion-select-option>
+              <ion-select-option value="sucursal2">Sucursal 2</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-searchbar placeholder="Buscar producto o servicio"></ion-searchbar>
+        </div>
+        <ion-card>
+          <ion-card-content>
+            <table class="stock-table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>SKU</th>
+                  <th>Cantidad</th>
+                  <th>Precio</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let stock of stocks">
+                  <td>{{ stock.Nombre }}</td>
+                  <td>{{ stock.Sku }}</td>
+                  <td>{{ stock.Cantidad }}</td>
+                  <td>{{ stock.Precio | currency }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="button-group">
+              <ion-button expand="block" color="primary" (click)="exportToExcel()">Descargar Stock Actual</ion-button>
+              <ion-button expand="block" color="secondary">Cargar Productos</ion-button>
+              <ion-button expand="block" color="tertiary" (click)="downloadTemplate()">Descargar Plantilla</ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
