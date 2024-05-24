@@ -28,5 +28,22 @@ export class AuthService {
       })
     );
   }
+
+  getProducts(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/products`).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
+  getStock(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/stock`).pipe(
+      catchError((error) => {
+        return throwError(error);
+      })
+    );
+  }
+
 }
 

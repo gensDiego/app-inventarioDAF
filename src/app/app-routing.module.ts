@@ -14,10 +14,16 @@ const routes: Routes = [
   {
     path: 'bienvenido',
     loadChildren: () => import('./bienvenido/bienvenido.module').then( m => m.BienvenidoPageModule)
-  },  {
+  },
+  {
     path: 'register',
     loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
   },
+  {
+    path: 'stock',
+    loadChildren: () => import('./pages/stock/stock.module').then( m => m.StockPageModule)
+  },
+
 
 ];
 

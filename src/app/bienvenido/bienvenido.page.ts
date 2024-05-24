@@ -1,5 +1,8 @@
+// src/app/bienvenido/bienvenido.page.ts
+
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service'; // Importa el servicio AuthService
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-bienvenido',
@@ -7,18 +10,37 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./bienvenido.page.scss'],
 })
 export class BienvenidoPage implements OnInit {
-  currentUser: any;
-  images = [
-    { url: '\assets\images\pattern.png', alt: 'Image 1' },
-    { url: '\assets\images\pattern.png', alt: 'Image 2' },
-    { url: '\assets\images\pattern.png', alt: 'Image 3' }
-  ];
+  products: any[] = [];
+  currentUser = { username: 'Usuario' }; // Ajusta esto según la lógica de tu aplicación
 
-  constructor(private authService: AuthService) {
-    this.currentUser = this.authService.getCurrentUser();
-  }
+  constructor(
+    private authService: AuthService,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
+    this.loadProducts();
   }
 
+  loadProducts() {
+    this.authService.getProducts().subscribe(
+      (response) => {
+        this.products = response;
+      },
+      async (error) => {
+        console.error('Error al obtener productos:', error);
+        await this.showAlert('Error', 'No se pudieron cargar los productos');
+      }
+    );
+  }
+
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
 }
