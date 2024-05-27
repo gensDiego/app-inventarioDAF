@@ -45,5 +45,8 @@ export class AuthService {
     );
   }
 
+  // Método para subir el archivo de stock
+  uploadStock(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/stock/upload`, data);
+  }
 }
-

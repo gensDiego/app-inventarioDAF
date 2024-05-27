@@ -40,9 +40,10 @@
             </table>
             <div class="button-group">
               <ion-button expand="block" color="primary" (click)="exportToExcel()">Descargar Stock Actual</ion-button>
-              <ion-button expand="block" color="secondary">Cargar Productos</ion-button>
+              <ion-button expand="block" color="secondary" (click)="triggerFileInput()">Cargar Productos</ion-button>
               <ion-button expand="block" color="tertiary" (click)="downloadTemplate()">Descargar Plantilla</ion-button>
             </div>
+            <input type="file" #fileInput style="display: none;" (change)="onFileChange($event)" />
           </ion-card-content>
         </ion-card>
       </ion-col>
