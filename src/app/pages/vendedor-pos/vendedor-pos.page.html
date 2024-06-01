@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>POS Vendedor</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Buscar Producto</ion-label>
+              <ion-select [(ngModel)]="ID_Producto" placeholder="Seleccione Producto">
+                <ion-select-option *ngFor="let producto of productos" [value]="producto.ID_Producto">
+                  {{ producto.Nombre }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Cantidad</ion-label>
+              <ion-input [(ngModel)]="Cantidad" type="number" placeholder="Ingrese Cantidad"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Método de Pago</ion-label>
+              <ion-select [(ngModel)]="ID_Metodo_Pago" placeholder="Seleccione Método de Pago">
+                <ion-select-option *ngFor="let metodo of metodosPago" [value]="metodo.ID_Metodo_Pago">
+                  {{ metodo.Nombre }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+            <div class="button-group">
+              <ion-button expand="block" color="primary" (click)="crearCarrito()">Crear Carrito</ion-button>
+              <ion-button expand="block" color="secondary" (click)="agregarProducto()">Agregar Producto</ion-button>
+              <ion-button expand="block" color="tertiary" (click)="finalizarVenta()">Finalizar Venta</ion-button>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Detalles del Carrito</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col><strong>Producto</strong></ion-col>
+                <ion-col><strong>Cantidad</strong></ion-col>
+                <ion-col><strong>Precio</strong></ion-col>
+                <ion-col><strong>Total</strong></ion-col>
+              </ion-row>
+              <ion-row *ngFor="let item of detalleCarrito">
+                <ion-col>{{ item.Nombre_Producto }}</ion-col>
+                <ion-col>{{ item.Cantidad }}</ion-col>
+                <ion-col>{{ item.Precio | currency }}</ion-col>
+                <ion-col>{{ item.total | currency }}</ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="9"><strong>Total General</strong></ion-col>
+                <ion-col size="3">{{ totalGeneral | currency }}</ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
