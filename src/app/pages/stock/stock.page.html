@@ -16,7 +16,7 @@
               <ion-select-option value="sucursal2">Sucursal 2</ion-select-option>
             </ion-select>
           </ion-item>
-          <ion-searchbar placeholder="Buscar producto o servicio"></ion-searchbar>
+          <ion-searchbar placeholder="Buscar producto o servicio" (ionInput)="filterStock($event)"></ion-searchbar>
         </div>
         <ion-card>
           <ion-card-content>
@@ -30,7 +30,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let stock of stocks">
+                <tr *ngFor="let stock of filteredStocks">
                   <td>{{ stock.Nombre }}</td>
                   <td>{{ stock.Sku }}</td>
                   <td>{{ stock.Cantidad }}</td>

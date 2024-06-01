@@ -12,6 +12,7 @@ import * as FileSaver from 'file-saver';
 export class StockPage implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   stocks: any[] = [];
+  filteredStocks: any[] = [];
   selectedFile: File | null = null;
 
   constructor(private stockService: AuthService, private alertController: AlertController) {}
@@ -24,7 +25,21 @@ export class StockPage implements OnInit {
     this.stockService.getStock().subscribe(data => {
       console.log(data);
       this.stocks = data;
+      this.filteredStocks = data; // Inicialmente, mostramos todos los stocks
     });
+  }
+
+  filterStock(event: any) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    if (!searchTerm) {
+      this.filteredStocks = this.stocks; // Si no hay término de búsqueda, muestra todos los stocks
+    } else {
+      this.filteredStocks = this.stocks.filter(stock => 
+        stock.Nombre.toLowerCase().includes(searchTerm) || 
+        stock.Sku.toLowerCase().includes(searchTerm)
+      );
+    }
   }
 
   exportToExcel() {

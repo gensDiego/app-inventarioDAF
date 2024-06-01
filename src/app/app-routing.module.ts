@@ -23,6 +23,11 @@ const routes: Routes = [
     path: 'stock',
     loadChildren: () => import('./pages/stock/stock.module').then( m => m.StockPageModule)
   },
+  {
+    path: 'vendedor-pos',
+    loadChildren: () => import('./pages/vendedor-pos/vendedor-pos.module').then( m => m.VendedorPosPageModule)
+  },
+
 
 
 ];
