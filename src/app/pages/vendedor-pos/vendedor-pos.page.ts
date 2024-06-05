@@ -51,6 +51,42 @@ export class VendedorPosPage implements OnInit {
     });
   }
 
+  incrementarCantidad(item: any) {
+    this.vposService.agregarProductoCarrito(this.userID!, item.ID_Producto, 1).subscribe(
+      async () => {
+        this.loadCarrito();
+      },
+      async (error) => {
+        console.error('Error al incrementar cantidad:', error);
+        await this.showAlert('Error', 'No se pudo incrementar la cantidad: ' + JSON.stringify(error));
+      }
+    );
+  }
+
+  decrementarCantidad(item: any) {
+    if (item.Cantidad > 1) {
+      this.vposService.agregarProductoCarrito(this.userID!, item.ID_Producto, -1).subscribe(
+        async () => {
+          this.loadCarrito();
+        },
+        async (error) => {
+          console.error('Error al decrementar cantidad:', error);
+          await this.showAlert('Error', 'No se pudo decrementar la cantidad: ' + JSON.stringify(error));
+        }
+      );
+    } else {
+      this.vposService.eliminarProductoCarrito(this.userID!, item.ID_Producto).subscribe(
+        async () => {
+          this.loadCarrito();
+        },
+        async (error) => {
+          console.error('Error al eliminar producto:', error);
+          await this.showAlert('Error', 'No se pudo eliminar el producto: ' + JSON.stringify(error));
+        }
+      );
+    }
+  }
+
   async crearCarrito() {
     console.log('Crear Carrito - Usuario ID:', this.userID);
     if (!this.userID) {
@@ -116,8 +152,6 @@ export class VendedorPosPage implements OnInit {
     );
   }
 
-  
-
   private async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header,
@@ -127,4 +161,3 @@ export class VendedorPosPage implements OnInit {
     await alert.present();
   }
 }
-

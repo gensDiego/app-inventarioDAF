@@ -65,4 +65,13 @@ export class VposService {
       })
     );
   }
+
+  eliminarProductoCarrito(ID_Usuario: number, ID_Producto: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cart/remove`, { ID_Usuario, ID_Producto }).pipe(
+      catchError((error) => {
+        console.error('Error en eliminarProductoCarrito:', error);
+        return throwError(error);
+      })
+    );
+  }
 }
