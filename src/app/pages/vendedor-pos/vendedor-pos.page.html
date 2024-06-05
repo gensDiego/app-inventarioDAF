@@ -14,7 +14,7 @@
               <ion-label position="stacked">Buscar Producto</ion-label>
               <ion-select [(ngModel)]="ID_Producto" placeholder="Seleccione Producto">
                 <ion-select-option *ngFor="let producto of productos" [value]="producto.ID_Producto">
-                  {{ producto.Nombre }}
+                  {{ producto.Nombre }} - {{ producto.Precio | currency }}
                 </ion-select-option>
               </ion-select>
             </ion-item>
@@ -55,7 +55,11 @@
               </ion-row>
               <ion-row *ngFor="let item of detalleCarrito">
                 <ion-col>{{ item.Nombre_Producto }}</ion-col>
-                <ion-col>{{ item.Cantidad }}</ion-col>
+                <ion-col>
+                  <ion-button size="small" color="medium" (click)="decrementarCantidad(item)">-</ion-button>
+                  {{ item.Cantidad }}
+                  <ion-button size="small" color="medium" (click)="incrementarCantidad(item)">+</ion-button>
+                </ion-col>
                 <ion-col>{{ item.Precio | currency }}</ion-col>
                 <ion-col>{{ item.total | currency }}</ion-col>
               </ion-row>
