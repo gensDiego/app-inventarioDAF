@@ -1,0 +1,22 @@
+/* Estilos para la barra de tareas y el header */
+ion-header {
+  background-color: #333;
+  color: #fff;
+  padding: 5px 0;
+}
+
+ion-button {
+  color: white !important;
+}
+
+.header-toolbar {
+  --background: transparent;
+  --border-color: transparent;
+}
+
+ion-title img {
+  height: 50px; /* Ajusta la altura de la imagen según tus necesidades */
+  width: auto; /* Esto asegura que el ancho se ajuste automáticamente según la relación de aspecto original de la imagen */
+  margin-left: 10px; /* Añade un margen a la izquierda para separar la imagen del borde izquierdo */
+  margin-top: 10px; /* Añade un margen en la parte superior para separar la imagen del borde superior */
+}

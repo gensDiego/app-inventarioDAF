@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BienvenidoPageRoutingModule } from './bienvenido-routing.module';
 
 import { BienvenidoPage } from './bienvenido.page';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BienvenidoPageRoutingModule
+    BienvenidoPageRoutingModule,
+    SharedModule  // Asegúrate de importar el SharedModule aquí
   ],
   declarations: [BienvenidoPage]
 })
