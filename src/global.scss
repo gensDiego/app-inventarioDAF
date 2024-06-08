@@ -54,4 +54,24 @@ ion-content {
   --ion-background-color: #f0f0f0; /* Cambia el color de fondo */
 }
 
+ion-header.navbar {
+  background-color: #333 !important;
+  color: #fff !important;
+  padding: 5px 0;
 
+  ion-toolbar.header-toolbar {
+    --background: #333 !important;
+    --border-color: transparent !important;
+  }
+
+  ion-button {
+    color: white !important;
+  }
+
+  ion-title img {
+    height: 50px; /* Ajusta la altura de la imagen según tus necesidades */
+    width: auto; /* Esto asegura que el ancho se ajuste automáticamente según la relación de aspecto original de la imagen */
+    margin-left: 10px; /* Añade un margen a la izquierda para separar la imagen del borde izquierdo */
+    margin-top: 10px; /* Añade un margen en la parte superior para separar la imagen del borde superior */
+  }
+}

@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service'; // Importa el servicio AuthService
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bienvenido',
@@ -15,7 +16,8 @@ export class BienvenidoPage implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -42,5 +44,10 @@ export class BienvenidoPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
   }
 }

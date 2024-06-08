@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { jwtDecode } from 'jwt-decode';
+import {jwtDecode} from 'jwt-decode'; // Asegúrate de importar jwtDecode correctamente
 
 @Injectable({
   providedIn: 'root',
@@ -43,6 +43,12 @@ export class AuthService {
         return throwError(error);
       })
     );
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    this.userId = null;
   }
 
   getUserId(): number {

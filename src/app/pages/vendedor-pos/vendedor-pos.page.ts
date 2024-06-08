@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VposService } from '../../services/vpos.service';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -26,7 +27,8 @@ export class VendedorPosPage implements OnInit {
   constructor(
     private vposService: VposService,
     private alertController: AlertController,
-    private authService: AuthService
+    private authService: AuthService, 
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -34,6 +36,11 @@ export class VendedorPosPage implements OnInit {
     this.userID = this.authService.getUserId();
     this.loadCarrito();
     console.log('User ID on init:', this.userID); // Log to ensure userID is being set
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
   }
 
   loadProducts() {

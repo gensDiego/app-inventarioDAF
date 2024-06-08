@@ -3,6 +3,8 @@ import { AlertController } from '@ionic/angular';
 import { ReportService } from '../../services/report.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-reporte',
@@ -19,7 +21,7 @@ export class ReportePage implements OnInit {
   maxDate: string = '';
   tableHeaders: string[] = [];
 
-  constructor(private reportService: ReportService, private alertController: AlertController) {}
+  constructor(private reportService: ReportService, private alertController: AlertController,private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     const currentDate = new Date().toISOString().split('T')[0];
@@ -84,6 +86,11 @@ export class ReportePage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/home']);
   }
 }
 

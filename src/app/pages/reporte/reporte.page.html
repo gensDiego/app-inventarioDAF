@@ -1,8 +1,18 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Reportes de Ventas</ion-title>
+<ion-header class="navbar" [translucent]="true">
+  <ion-toolbar class="header-toolbar">
+    <ion-title>
+      <img src="/assets/images/Da.png" alt="Logo">
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/vendedor-pos" routerDirection="forward">POS</ion-button>
+      <ion-button routerLink="/stock" routerDirection="forward">Stock</ion-button>
+      <ion-button routerLink="/reporte" routerDirection="forward">Reportes</ion-button>
+      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+
 
 <ion-content>
   <ion-grid>

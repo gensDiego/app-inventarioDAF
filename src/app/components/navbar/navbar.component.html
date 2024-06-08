@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="header-toolbar">
+    <ion-title>
+      <img src="assets/images/Da.png" alt="Logo">
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/home" routerDirection="forward">Home</ion-button>
+      <ion-button routerLink="/bienvenido" routerDirection="forward">Bienvenido</ion-button>
+      <ion-button routerLink="/register" routerDirection="forward">Register</ion-button>
+      <ion-button routerLink="/stock" routerDirection="forward">Stock</ion-button>
+      <ion-button routerLink="/vendedor-pos" routerDirection="forward">Vendedor POS</ion-button>
+      <ion-button routerLink="/reporte" routerDirection="forward">Reporte</ion-button>
+      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>

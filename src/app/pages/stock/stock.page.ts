@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { AlertController } from '@ionic/angular';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-stock',
@@ -15,7 +17,7 @@ export class StockPage implements OnInit {
   filteredStocks: any[] = [];
   selectedFile: File | null = null;
 
-  constructor(private stockService: AuthService, private alertController: AlertController) {}
+  constructor(private stockService: AuthService, private alertController: AlertController, private router: Router) {}
 
   ngOnInit() {
     this.getStock();
@@ -115,6 +117,11 @@ export class StockPage implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  logout() {
+    this.stockService.logout();
+    this.router.navigate(['/home']);
   }
 }
 
