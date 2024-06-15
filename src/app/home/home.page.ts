@@ -38,8 +38,22 @@ export class HomePage implements OnInit {
         console.log('Inicio de sesión exitoso:', response);
         // Guardar el token en el almacenamiento local o en una variable global
         localStorage.setItem('token', response.token);
-        // Redirigir al usuario a la página de inicio o dashboard
-        this.router.navigate(['/bienvenido']); // Cambia '/dashboard' a la página a la que quieras redirigir después del inicio de sesión
+
+        // Obtener el rol del usuario
+        const userRol = this.authService.getUserRol();
+        console.log('Rol del usuario:', userRol);
+
+        // Redirigir al usuario a la página correspondiente según el rol
+        if (userRol === 1) {
+          this.router.navigate(['/stock']);
+        } else if (userRol === 2) {
+          this.router.navigate(['/vendedor-pos']);
+        } else if (userRol === 3) {
+          this.router.navigate(['/bienvenido']);
+        } else {
+          // Manejar el caso donde el rol no es reconocido
+          await this.showAlert('Error', 'Rol de usuario no reconocido');
+        }
       },
       async (error) => {
         console.error('Error al iniciar sesión:', error);

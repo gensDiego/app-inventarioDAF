@@ -26,10 +26,16 @@ const routes: Routes = [
   {
     path: 'vendedor-pos',
     loadChildren: () => import('./pages/vendedor-pos/vendedor-pos.module').then( m => m.VendedorPosPageModule)
-  },  {
+  },
+  {
     path: 'reporte',
     loadChildren: () => import('./pages/reporte/reporte.module').then( m => m.ReportePageModule)
   },
+  {
+    path: 'carrito-cliente',
+    loadChildren: () => import('./pages/carrito-cliente/carrito-cliente.module').then( m => m.CarritoClientePageModule)
+  },
+
 
 
 

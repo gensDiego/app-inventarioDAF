@@ -74,4 +74,22 @@ export class VposService {
       })
     );
   }
+
+  generarEntradaCarrito(ID_Carrito: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cart/generarEntradaCarrito`, { ID_Carrito }).pipe(
+      catchError((error) => {
+        console.error('Error en generarEntradaCarrito:', error);
+        return throwError(error);
+      })
+    );
+  }
+
+  obtenerDetalleCarritoPorCodigo(ID_Codigo: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cart/obtenerDetalleCarritoPorCodigo`, { ID_Codigo }).pipe(
+      catchError((error) => {
+        console.error('Error en obtenerDetalleCarritoPorCodigo:', error);
+        return throwError(error);
+      })
+    );
+  }
 }

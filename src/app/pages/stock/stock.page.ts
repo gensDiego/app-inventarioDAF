@@ -3,8 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { AlertController } from '@ionic/angular';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-import { Router } from '@angular/router';
-
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-stock',
@@ -16,10 +16,26 @@ export class StockPage implements OnInit {
   stocks: any[] = [];
   filteredStocks: any[] = [];
   selectedFile: File | null = null;
+  userRol: number | null = null;
 
-  constructor(private stockService: AuthService, private alertController: AlertController, private router: Router) {}
+  constructor(
+    private stockService: AuthService, 
+    private alertController: AlertController, 
+    private router: Router
+  ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.reloadPage();
+    });
+  }
 
   ngOnInit() {
+    this.userRol = this.stockService.getUserRol(); // Obtener el rol del usuario
+    this.getStock();
+  }
+
+  reloadPage() {
     this.getStock();
   }
 
