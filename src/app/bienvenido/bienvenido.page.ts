@@ -1,5 +1,3 @@
-// src/app/bienvenido/bienvenido.page.ts
-
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service'; // Importa el servicio AuthService
 import { AlertController } from '@ionic/angular';
@@ -13,6 +11,8 @@ import { Router } from '@angular/router';
 export class BienvenidoPage implements OnInit {
   products: any[] = [];
   currentUser = { username: 'Usuario' }; // Ajusta esto según la lógica de tu aplicación
+  userRol: number | null = null;
+  userId: number | null = null;
 
   constructor(
     private authService: AuthService,
@@ -21,6 +21,8 @@ export class BienvenidoPage implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.userRol = this.authService.getUserRol();
+    this.userId = this.authService.getUserId(); // Obtener el userId
     this.loadProducts();
   }
 
@@ -44,6 +46,12 @@ export class BienvenidoPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  navigateAndReload(route: string) {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([route]);
+    });
   }
 
   logout() {

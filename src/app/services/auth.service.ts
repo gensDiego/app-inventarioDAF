@@ -10,11 +10,16 @@ import {jwtDecode} from 'jwt-decode'; // Asegúrate de importar jwtDecode correc
 export class AuthService {
   private apiUrl = 'http://localhost:4000/api';
   private userId: number | null = null;
+  private userRol: number | null = null;
 
   constructor(private http: HttpClient) {
     const storedUserId = localStorage.getItem('userId');
+    const storedUserRol = localStorage.getItem('userRol');
     if (storedUserId !== null) {
       this.userId = parseInt(storedUserId, 10);
+    }
+    if (storedUserRol !== null) {
+      this.userRol = parseInt(storedUserRol, 10);
     }
   }
 
@@ -33,9 +38,11 @@ export class AuthService {
         if (token) {
           const decodedToken: any = jwtDecode(token);
           this.userId = decodedToken.userId;
-          if (this.userId !== null) {
+          this.userRol = decodedToken.userRol;
+          if (this.userId !== null && this.userRol !== null) {
             localStorage.setItem('token', token);
             localStorage.setItem('userId', this.userId.toString());
+            localStorage.setItem('userRol', this.userRol.toString());
           }
         }
       }),
@@ -48,7 +55,9 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('userRol');
     this.userId = null;
+    this.userRol = null;
   }
 
   getUserId(): number {
@@ -56,6 +65,13 @@ export class AuthService {
       throw new Error('User ID is not set');
     }
     return this.userId;
+  }
+
+  getUserRol(): number {
+    if (this.userRol === null) {
+      throw new Error('User Role is not set');
+    }
+    return this.userRol;
   }
 
   getProducts(): Observable<any> {

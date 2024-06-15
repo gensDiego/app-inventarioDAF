@@ -4,21 +4,24 @@
       <img src="/assets/images/Da.png" alt="Logo">
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/vendedor-pos" routerDirection="forward">POS</ion-button>
-      <ion-button routerLink="/stock" routerDirection="forward">Stock</ion-button>
-      <ion-button routerLink="/reporte" routerDirection="forward">Reportes</ion-button>
+      <ion-button *ngIf="userRol === 1 || userRol === 2" (click)="navigateAndReload('/vendedor-pos')">POS</ion-button>
+      <ion-button *ngIf="userRol === 1" (click)="navigateAndReload('/stock')">Stock</ion-button>
+      <ion-button *ngIf="userRol === 1" (click)="navigateAndReload('/reporte')">Reportes</ion-button>
+      <ion-button *ngIf="userRol === 3" (click)="navigateAndReload('/carrito-cliente')">Carrito de compras</ion-button>
       <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-  </ion-header>
+  <ion-header collapse="condense"></ion-header>
 
   <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <p>Bienvenido, Usuario ID: {{ userId }}</p> <!-- Mostrar el userId -->
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of products">
         <ion-card class="custom-card">
@@ -51,5 +54,4 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  </ion-content>
-  
+</ion-content>

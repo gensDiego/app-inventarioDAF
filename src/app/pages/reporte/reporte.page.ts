@@ -3,8 +3,9 @@ import { AlertController } from '@ionic/angular';
 import { ReportService } from '../../services/report.service';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reporte',
@@ -21,7 +22,13 @@ export class ReportePage implements OnInit {
   maxDate: string = '';
   tableHeaders: string[] = [];
 
-  constructor(private reportService: ReportService, private alertController: AlertController,private authService: AuthService, private router: Router) {}
+  constructor(private reportService: ReportService, private alertController: AlertController, private authService: AuthService, private router: Router) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.reloadPage();
+    });
+  }
 
   ngOnInit() {
     const currentDate = new Date().toISOString().split('T')[0];
@@ -29,6 +36,14 @@ export class ReportePage implements OnInit {
     this.maxDate = currentDate;
     this.startDate = currentDate;
     this.endDate = currentDate;
+  }
+
+  reloadPage() {
+    this.startDate = new Date().toISOString().split('T')[0];
+    this.endDate = new Date().toISOString().split('T')[0];
+    this.selectedReporte = '';
+    this.reporte = [];
+    this.tableHeaders = [];
   }
 
   generarReporte() {

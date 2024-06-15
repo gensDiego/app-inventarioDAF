@@ -6,23 +6,16 @@ import { AuthService } from '../../services/auth.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-vendedor-pos',
-  templateUrl: './vendedor-pos.page.html',
-  styleUrls: ['./vendedor-pos.page.scss'],
+  selector: 'app-carrito-cliente',
+  templateUrl: './carrito-cliente.page.html',
+  styleUrls: ['./carrito-cliente.page.scss'],
 })
-export class VendedorPosPage implements OnInit {
+export class CarritoClientePage implements OnInit {
   ID_Producto!: number;
   Cantidad!: number;
-  ID_Metodo_Pago!: number;
   productos: any[] = [];
   detalleCarrito: any[] = [];
   totalGeneral: number = 0;
-  metodosPago: { ID_Metodo_Pago: number, Nombre: string }[] = [
-    { ID_Metodo_Pago: 1, Nombre: 'Tarjeta de crédito' },
-    { ID_Metodo_Pago: 2, Nombre: 'Tarjeta de débito' },
-    { ID_Metodo_Pago: 3, Nombre: 'Efectivo' },
-    { ID_Metodo_Pago: 4, Nombre: 'Transferencia bancaria' }
-  ];
   userID!: number | null;
 
   constructor(
@@ -40,20 +33,22 @@ export class VendedorPosPage implements OnInit {
 
   ngOnInit() {
     this.userID = this.authService.getUserId();
-    console.log('User ID on init:', this.userID); // Log to ensure userID is being set
+    console.log('User ID on init:', this.userID); // Log para asegurar que el userID se está estableciendo correctamente
     this.loadProducts();
     this.loadCarrito();
-    const userRol = this.authService.getUserRol();
-    console.log('Rol del usuario:', userRol);
   }
 
   reloadPage() {
+    this.userID = this.authService.getUserId(); // Asegúrate de que el userID se actualiza
     this.loadProducts();
     this.loadCarrito();
   }
 
   logout() {
     this.authService.logout();
+    this.userID = null;
+    this.detalleCarrito = [];
+    this.totalGeneral = 0;
     this.router.navigate(['/home']);
   }
 
@@ -151,26 +146,51 @@ export class VendedorPosPage implements OnInit {
     );
   }
 
-  async finalizarVenta() {
-    const ventaData = { ID_Metodo_Pago: this.ID_Metodo_Pago, userID: this.userID };
-    console.log('Finalizar Venta - Data:', ventaData);
-    if (!this.userID || !this.ID_Metodo_Pago) {
-      const errorMessage = 'Todos los campos son obligatorios';
-      console.error(errorMessage);
-      await this.showAlert('Error', errorMessage);
-      return;
-    }
-    this.vposService.finalizarVenta(this.userID!, this.ID_Metodo_Pago).subscribe(
-      async () => {
-        console.log('Venta finalizada');
-        await this.showAlert('Éxito', 'Venta finalizada correctamente');
-        this.loadCarrito();
-      },
-      async (error) => {
-        console.error('Error al finalizar venta:', error);
-        await this.showAlert('Error', 'No se pudo finalizar la venta: ' + JSON.stringify({ ...ventaData, error: error.message }));
+  async obtenerCarritoActivo() {
+    return new Promise<number | null>((resolve, reject) => {
+      if (!this.userID) {
+        resolve(null);
+      } else {
+        this.vposService.obtenerDetalleCarrito(this.userID).subscribe(
+          (data: any[]) => {
+            if (data.length > 0) {
+              resolve(data[0].ID_Carrito);
+            } else {
+              resolve(null);
+            }
+          },
+          (error) => {
+            console.error('Error al obtener el carrito activo:', error);
+            reject(error);
+          }
+        );
       }
-    );
+    });
+  }
+
+  async generarCodigo() {
+    try {
+      const carritoID = await this.obtenerCarritoActivo();
+      if (!carritoID) {
+        const errorMessage = 'Carrito no creado o no encontrado';
+        console.error(errorMessage);
+        await this.showAlert('Error', errorMessage);
+        return;
+      }
+      this.vposService.generarEntradaCarrito(carritoID).subscribe(
+        async (response) => {
+          console.log('Código generado:', response);
+          await this.showAlert('Éxito', response.message);
+        },
+        async (error) => {
+          console.error('Error al generar código:', error);
+          await this.showAlert('Error', 'No se pudo generar el código: ' + JSON.stringify(error));
+        }
+      );
+    } catch (error) {
+      console.error('Error al obtener el carrito activo:', error);
+      await this.showAlert('Error', 'No se pudo obtener el carrito activo: ' + JSON.stringify(error));
+    }
   }
 
   private async showAlert(header: string, message: string) {
