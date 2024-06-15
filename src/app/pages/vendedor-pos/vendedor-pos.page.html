@@ -39,9 +39,13 @@
               </ion-select>
             </ion-item>
             <div class="button-group">
-              <!--<ion-button expand="block" color="primary" (click)="crearCarrito()">Crear Carrito</ion-button>-->
               <ion-button expand="block" color="secondary" (click)="agregarProducto()">Agregar Producto</ion-button>
               <ion-button expand="block" color="tertiary" (click)="finalizarVenta()">Finalizar Venta</ion-button>
+              <ion-item>
+                <ion-label position="stacked">Código de Cliente</ion-label>
+                <ion-input [(ngModel)]="codigoCliente" placeholder="Ingrese el código"></ion-input>
+              </ion-item>
+              <ion-button expand="block" color="primary" (click)="aplicarCodigoCliente()">Aplicar Código de Cliente</ion-button>
             </div>
           </ion-card-content>
         </ion-card>

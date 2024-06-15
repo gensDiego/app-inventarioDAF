@@ -92,4 +92,14 @@ export class VposService {
       })
     );
   }
+
+  aplicarCodigoCarrito(ID_Codigo: number, ID_Vendedor: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/cart/aplicarCodigo`, { ID_Codigo, ID_Vendedor }).pipe(
+        catchError((error) => {
+            console.error('Error en aplicarCodigoCarrito:', error);
+            return throwError(error);
+        })
+    );
 }
+}
+

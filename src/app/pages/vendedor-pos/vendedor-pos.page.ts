@@ -17,6 +17,7 @@ export class VendedorPosPage implements OnInit {
   productos: any[] = [];
   detalleCarrito: any[] = [];
   totalGeneral: number = 0;
+  codigoCliente!: number;
   metodosPago: { ID_Metodo_Pago: number, Nombre: string }[] = [
     { ID_Metodo_Pago: 1, Nombre: 'Tarjeta de crédito' },
     { ID_Metodo_Pago: 2, Nombre: 'Tarjeta de débito' },
@@ -169,6 +170,33 @@ export class VendedorPosPage implements OnInit {
       async (error) => {
         console.error('Error al finalizar venta:', error);
         await this.showAlert('Error', 'No se pudo finalizar la venta: ' + JSON.stringify({ ...ventaData, error: error.message }));
+      }
+    );
+  }
+
+  async aplicarCodigoCliente() {
+    console.log('Aplicar Código - Código Cliente:', this.codigoCliente);
+    if (!this.codigoCliente) {
+      const errorMessage = 'El código de cliente es obligatorio';
+      console.error(errorMessage);
+      await this.showAlert('Error', errorMessage);
+      return;
+    }
+    if (!this.userID) {
+      const errorMessage = 'Usuario no autenticado';
+      console.error(errorMessage);
+      await this.showAlert('Error', errorMessage);
+      return;
+    }
+    this.vposService.aplicarCodigoCarrito(this.codigoCliente, this.userID!).subscribe(
+      async (response) => {
+        console.log('Código aplicado:', response);
+        await this.showAlert('Éxito', 'Código aplicado correctamente');
+        this.loadCarrito();
+      },
+      async (error) => {
+        console.error('Error al aplicar código:', error);
+        await this.showAlert('Error', 'No se pudo aplicar el código: ' + JSON.stringify(error));
       }
     );
   }
