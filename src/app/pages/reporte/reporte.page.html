@@ -7,12 +7,11 @@
       <ion-button routerLink="/vendedor-pos" routerDirection="forward">POS</ion-button>
       <ion-button routerLink="/stock" routerDirection="forward">Stock</ion-button>
       <ion-button routerLink="/reporte" routerDirection="forward">Reportes</ion-button>
+      <ion-button *ngIf="userRol === 1" (click)="navigateAndReload('/control')">Adm. Usuarios</ion-button>
       <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
-
 
 <ion-content>
   <ion-grid>
@@ -23,7 +22,6 @@
             <ion-item>
               <ion-label position="stacked">Tipo de Reporte</ion-label>
               <ion-select [(ngModel)]="selectedReporte" placeholder="Seleccione el tipo de reporte">
-                <ion-select-option value="ventasProducto">Resumen de ventas por producto</ion-select-option>
                 <ion-select-option value="ventasUsuario">Resumen de ventas por usuario</ion-select-option>
                 <ion-select-option value="ventasDetalladas">Ventas detalladas por periodo</ion-select-option>
                 <ion-select-option value="ventasTotales">Ventas totales por periodo</ion-select-option>

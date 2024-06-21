@@ -15,4 +15,14 @@
   ion-button {
     margin-top: 20px; /* Espacio superior */
   }
+
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -10px; /* Ajusta según sea necesario */
+    margin-bottom: 10px; /* Ajusta según sea necesario */
+    padding-left: 16px; /* Alinea con el texto del input */
+    display: block;
+  }
+  
   

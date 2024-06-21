@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'; // Importa el servicio AuthService
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router'; // Importa Router para la navegación
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -28,14 +29,35 @@ export class RegisterPage implements OnInit {
     console.log('Componente RegisterPage inicializado');
   }
 
+  async onSubmit(registerForm: NgForm) {
+    if (registerForm.valid) {
+      this.register();
+    } else {
+      const errors = [];
+      if (!registerForm.controls['firstName']?.valid) {
+        errors.push('Nombre es requerido.');
+      }
+      if (!registerForm.controls['lastName']?.valid) {
+        errors.push('Apellido es requerido.');
+      }
+      if (!registerForm.controls['birthDate']?.valid) {
+        errors.push('Fecha de Nacimiento es requerida.');
+      }
+      if (!registerForm.controls['email']?.valid) {
+        errors.push('Correo Electrónico es requerido y debe ser válido.');
+      }
+      if (!registerForm.controls['password']?.valid) {
+        errors.push('Contraseña es requerida y debe tener al menos 8 caracteres.');
+      }
+
+      const errorMessage = errors.join('\n');
+      await this.showAlert('Error', errorMessage);
+      registerForm.control.markAllAsTouched(); // Para mostrar mensajes de error
+    }
+  }
+
   async register() {
     console.log('Datos del formulario:', this.registerFormData);
-
-    // Validar que todas las variables requeridas estén presentes
-    if (!this.registerFormData.firstName || !this.registerFormData.lastName || !this.registerFormData.birthDate || !this.registerFormData.email || !this.registerFormData.password) {
-      await this.showAlert('Error', 'Faltan datos requeridos');
-      return;
-    }
 
     this.authService.register(this.registerFormData).subscribe(
       async (response) => {

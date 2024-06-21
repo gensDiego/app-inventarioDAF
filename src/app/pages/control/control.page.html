@@ -1,0 +1,59 @@
+<ion-header class="navbar" [translucent]="true">
+  <ion-toolbar class="header-toolbar">
+    <ion-title>
+      <img src="/assets/images/Da.png" alt="Logo">
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/vendedor-pos" routerDirection="forward">POS</ion-button>
+      <ion-button routerLink="/stock" routerDirection="forward">Stock</ion-button>
+      <ion-button routerLink="/reporte" routerDirection="forward">Reportes</ion-button>
+      <ion-button *ngIf="userRol === 1" (click)="navigateAndReload('/control')">Adm. Usuarios</ion-button>
+      <ion-button (click)="logout()">Cerrar Sesión</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="table-container">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12">
+          <ion-card>
+            <ion-card-content>
+              <table class="user-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Rol</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let usuario of usuarios">
+                    <td>{{ usuario.ID_usuario }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>
+                      <ion-select [(ngModel)]="usuario.ID_Rol">
+                        <ion-select-option *ngFor="let rol of roles" [value]="rol.ID_Rol">{{ rol.Nombre_rol }}</ion-select-option>
+                      </ion-select>
+                    </td>
+                    <td>
+                      <ion-select [(ngModel)]="usuario.ID_Estado">
+                        <ion-select-option *ngFor="let estado of estados" [value]="estado.ID_Estado">{{ estado.Estado_usuario }}</ion-select-option>
+                      </ion-select>
+                    </td>
+                    <td>
+                      <ion-button color="primary" (click)="actualizarUsuario(usuario)">Actualizar</ion-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

@@ -13,6 +13,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./reporte.page.scss'],
 })
 export class ReportePage implements OnInit {
+  userId!: number | null;
+  userRol!: number | null;
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   reporte: any[] = [];
   selectedReporte: string = '';
@@ -22,7 +24,12 @@ export class ReportePage implements OnInit {
   maxDate: string = '';
   tableHeaders: string[] = [];
 
-  constructor(private reportService: ReportService, private alertController: AlertController, private authService: AuthService, private router: Router) {
+  constructor(
+    private reportService: ReportService,
+    private alertController: AlertController,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -31,6 +38,8 @@ export class ReportePage implements OnInit {
   }
 
   ngOnInit() {
+    this.userId = this.authService.getUserId();
+    this.userRol = this.authService.getUserRol();
     const currentDate = new Date().toISOString().split('T')[0];
     this.minDate = '2020-01-01';
     this.maxDate = currentDate;
@@ -82,7 +91,18 @@ export class ReportePage implements OnInit {
     }
   }
 
+  navigateAndReload(route: string) {
+    this.router.navigate([route]).then(() => {
+      window.location.reload();
+    });
+  }
+
   exportToExcel() {
+    if (!this.selectedReporte) {
+      this.presentAlert('Error', 'Por favor elija un tipo de reporte antes de descargar.');
+      return;
+    }
+
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reporte);
     const workbook: XLSX.WorkBook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });

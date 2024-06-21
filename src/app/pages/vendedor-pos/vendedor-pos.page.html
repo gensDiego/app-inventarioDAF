@@ -7,6 +7,7 @@
       <ion-button routerLink="/vendedor-pos" routerDirection="forward">POS</ion-button>
       <ion-button routerLink="/stock" routerDirection="forward">Stock</ion-button>
       <ion-button routerLink="/reporte" routerDirection="forward">Reportes</ion-button>
+      <ion-button *ngIf="userRol === 1" (click)="navigateAndReload('/control')">Adm. Usuarios</ion-button>
       <ion-button (click)="logout()">Cerrar Sesión</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -39,13 +40,13 @@
               </ion-select>
             </ion-item>
             <div class="button-group">
-              <ion-button expand="block" color="secondary" (click)="agregarProducto()">Agregar Producto</ion-button>
-              <ion-button expand="block" color="tertiary" (click)="finalizarVenta()">Finalizar Venta</ion-button>
+              <ion-button expand="block" color="secondary" (click)="agregarProducto(); resetForm()">Agregar Producto</ion-button>
+              <ion-button expand="block" color="tertiary" (click)="finalizarVenta(); resetForm()">Finalizar Venta</ion-button>
               <ion-item>
                 <ion-label position="stacked">Código de Cliente</ion-label>
                 <ion-input [(ngModel)]="codigoCliente" placeholder="Ingrese el código"></ion-input>
               </ion-item>
-              <ion-button expand="block" color="primary" (click)="aplicarCodigoCliente()">Aplicar Código de Cliente</ion-button>
+              <ion-button expand="block" color="primary" (click)="aplicarCodigoCliente(); resetForm()">Aplicar Código de Cliente</ion-button>
             </div>
           </ion-card-content>
         </ion-card>
