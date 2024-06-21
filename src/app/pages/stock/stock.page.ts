@@ -135,6 +135,12 @@ export class StockPage implements OnInit {
     await alert.present();
   }
 
+  navigateAndReload(route: string) {
+    this.router.navigate([route]).then(() => {
+      window.location.reload();
+    });
+  }
+
   logout() {
     this.stockService.logout();
     this.router.navigate(['/home']);

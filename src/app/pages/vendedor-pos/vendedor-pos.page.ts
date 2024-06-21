@@ -11,6 +11,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./vendedor-pos.page.scss'],
 })
 export class VendedorPosPage implements OnInit {
+  userId!: number | null;
+  userRol!: number | null;
   ID_Producto!: number;
   Cantidad!: number;
   ID_Metodo_Pago!: number;
@@ -40,6 +42,7 @@ export class VendedorPosPage implements OnInit {
   }
 
   ngOnInit() {
+    this.userRol = this.authService.getUserRol();
     this.userID = this.authService.getUserId();
     console.log('User ID on init:', this.userID); // Log to ensure userID is being set
     this.loadProducts();
@@ -80,7 +83,7 @@ export class VendedorPosPage implements OnInit {
       },
       async (error) => {
         console.error('Error al incrementar cantidad:', error);
-        await this.showAlert('Error', 'No se pudo incrementar la cantidad: ' + JSON.stringify(error));
+        await this.showAlert('Error', 'No se pudo incrementar la cantidad: ' + this.getErrorMessage(error));
       }
     );
   }
@@ -93,7 +96,7 @@ export class VendedorPosPage implements OnInit {
         },
         async (error) => {
           console.error('Error al decrementar cantidad:', error);
-          await this.showAlert('Error', 'No se pudo decrementar la cantidad: ' + JSON.stringify(error));
+          await this.showAlert('Error', 'No se pudo decrementar la cantidad: ' + this.getErrorMessage(error));
         }
       );
     } else {
@@ -103,7 +106,7 @@ export class VendedorPosPage implements OnInit {
         },
         async (error) => {
           console.error('Error al eliminar producto:', error);
-          await this.showAlert('Error', 'No se pudo eliminar el producto: ' + JSON.stringify(error));
+          await this.showAlert('Error', 'No se pudo eliminar el producto: ' + this.getErrorMessage(error));
         }
       );
     }
@@ -125,7 +128,7 @@ export class VendedorPosPage implements OnInit {
       },
       async (error) => {
         console.error('Error al crear carrito:', error);
-        await this.showAlert('Error', 'No se pudo crear el carrito: ' + JSON.stringify({ ID_Usuario: this.userID, error: error.message }));
+        await this.showAlert('Error', 'No se pudo crear el carrito: ' + this.getErrorMessage(error));
       }
     );
   }
@@ -134,7 +137,7 @@ export class VendedorPosPage implements OnInit {
     const productData = { ID_Producto: this.ID_Producto, Cantidad: this.Cantidad, userID: this.userID };
     console.log('Agregar Producto - Data:', productData);
     if (!this.userID || !this.ID_Producto || !this.Cantidad) {
-      const errorMessage = 'Todos los campos son obligatorios';
+      const errorMessage = 'Selecciona un producto y su cantidad a agregar';
       console.error(errorMessage);
       await this.showAlert('Error', errorMessage);
       return;
@@ -147,21 +150,29 @@ export class VendedorPosPage implements OnInit {
       },
       async (error) => {
         console.error('Error al agregar producto:', error);
-        await this.showAlert('Error', 'No se pudo agregar el producto: ' + JSON.stringify({ ...productData, error: error.message }));
+        await this.showAlert('Error', 'No se pudo agregar el producto: ' + this.getErrorMessage(error));
       }
     );
   }
 
   async finalizarVenta() {
-    const ventaData = { ID_Metodo_Pago: this.ID_Metodo_Pago, userID: this.userID };
-    console.log('Finalizar Venta - Data:', ventaData);
-    if (!this.userID || !this.ID_Metodo_Pago) {
-      const errorMessage = 'Todos los campos son obligatorios';
-      console.error(errorMessage);
-      await this.showAlert('Error', errorMessage);
+    console.log('Finalizar Venta - Data:', { ID_Metodo_Pago: this.ID_Metodo_Pago, userID: this.userID });
+    if (!this.userID) {
+      await this.showAlert('Error', 'Usuario no autenticado');
       return;
     }
-    this.vposService.finalizarVenta(this.userID!, this.ID_Metodo_Pago).subscribe(
+
+    if (this.detalleCarrito.length === 0) {
+      await this.showAlert('Error', 'No hay productos en el carrito para generar la venta');
+      return;
+    }
+
+    if (!this.ID_Metodo_Pago) {
+      await this.showAlert('Error', 'Por favor elige tu método de pago');
+      return;
+    }
+
+    this.vposService.finalizarVenta(this.userID, this.ID_Metodo_Pago).subscribe(
       async () => {
         console.log('Venta finalizada');
         await this.showAlert('Éxito', 'Venta finalizada correctamente');
@@ -169,7 +180,7 @@ export class VendedorPosPage implements OnInit {
       },
       async (error) => {
         console.error('Error al finalizar venta:', error);
-        await this.showAlert('Error', 'No se pudo finalizar la venta: ' + JSON.stringify({ ...ventaData, error: error.message }));
+        await this.showAlert('Error', 'No se pudo finalizar la venta: ' + this.getErrorMessage(error));
       }
     );
   }
@@ -196,9 +207,23 @@ export class VendedorPosPage implements OnInit {
       },
       async (error) => {
         console.error('Error al aplicar código:', error);
-        await this.showAlert('Error', 'No se pudo aplicar el código: ' + JSON.stringify(error));
+        const errorMessage = this.getErrorMessage(error);
+        await this.showAlert('Error', 'No se pudo aplicar el código: ' + errorMessage);
       }
     );
+  }
+
+  navigateAndReload(route: string) {
+    this.router.navigate([route]).then(() => {
+      window.location.reload();
+    });
+  }
+
+  resetForm() {
+    this.ID_Producto = null!;
+    this.Cantidad = null!;
+    this.ID_Metodo_Pago = null!;
+    this.codigoCliente = null!;
   }
 
   private async showAlert(header: string, message: string) {
@@ -208,5 +233,12 @@ export class VendedorPosPage implements OnInit {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  private getErrorMessage(error: any): string {
+    if (error.error && error.error.message) {
+      return error.error.message;
+    }
+    return 'Ocurrió un error inesperado';
   }
 }

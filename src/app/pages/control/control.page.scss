@@ -1,0 +1,44 @@
+ion-card-content {
+    background-color: #f4f5f8;
+  }
+  
+  .table-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .user-table {
+    width: 100%;
+    max-width: 800px; /* Reduce the max width */
+    border-collapse: collapse;
+    margin: 0 auto; /* Center the table */
+  }
+  
+  .user-table th, .user-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-table th {
+    background-color: #333;
+    color: white;
+  }
+  
+  .user-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .user-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  ion-select {
+    width: 100%;
+  }
+  
+  ion-button {
+    margin: 5px 0;
+  }
+  

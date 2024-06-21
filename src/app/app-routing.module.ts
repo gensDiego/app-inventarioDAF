@@ -34,7 +34,12 @@ const routes: Routes = [
   {
     path: 'carrito-cliente',
     loadChildren: () => import('./pages/carrito-cliente/carrito-cliente.module').then( m => m.CarritoClientePageModule)
-  },
+  },  {
+    path: 'control',
+    loadChildren: () => import('./pages/control/control.module').then( m => m.ControlPageModule)
+  }
+
+
 
 
 
