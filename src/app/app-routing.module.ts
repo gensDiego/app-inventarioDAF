@@ -37,6 +37,18 @@ const routes: Routes = [
   },  {
     path: 'control',
     loadChildren: () => import('./pages/control/control.module').then( m => m.ControlPageModule)
+  },
+  {
+    path: 'crear-producto',
+    loadChildren: () => import('./pages/crear-producto/crear-producto.module').then( m => m.CrearProductoPageModule)
+  },
+  {
+    path: 'category',
+    loadChildren: () => import('./pages/category/category.module').then( m => m.CategoryPageModule)
+  },
+  {
+    path: 'producto',
+    loadChildren: () => import('./pages/producto/producto.module').then( m => m.ProductoPageModule)
   }
 
 
