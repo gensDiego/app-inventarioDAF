@@ -58,7 +58,7 @@ export class BienvenidoPage implements OnInit {
       },
       async (error) => {
         console.error('Error al agregar producto al carrito:', error);
-        await this.showAlert('Error', 'No se pudo agregar el producto al carrito: ' + JSON.stringify(error));
+        await this.showAlert('Error', 'No se pudo agregar el producto al carrito: ' + error);
       }
     );
   }
@@ -76,7 +76,7 @@ export class BienvenidoPage implements OnInit {
       },
       async (error) => {
         console.error('Error al quitar producto del carrito:', error);
-        await this.showAlert('Error', 'No se pudo quitar el producto del carrito: ' + JSON.stringify(error));
+        await this.showAlert('Error', 'No se pudo quitar el producto del carrito: ' + error);
       }
     );
   }

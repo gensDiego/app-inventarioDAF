@@ -16,7 +16,7 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/create`, { ID_Usuario }).pipe(
       catchError((error) => {
         console.error('Error en crearCarrito:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error en crear carrito');
       })
     );
   }
@@ -25,7 +25,7 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/add`, { ID_Usuario, ID_Producto, Cantidad }).pipe(
       catchError((error) => {
         console.error('Error en agregarProductoCarrito:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al agregar producto al carrito');
       })
     );
   }
@@ -34,7 +34,7 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/checkout`, { ID_Usuario, ID_Metodo_Pago }).pipe(
       catchError((error) => {
         console.error('Error en finalizarVenta:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al finalizar la venta');
       })
     );
   }
@@ -43,7 +43,7 @@ export class VposService {
     return this.http.get(`${this.apiUrl}/products/search?term=${term}`).pipe(
       catchError((error) => {
         console.error('Error en buscarProductos:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al buscar productos');
       })
     );
   }
@@ -52,7 +52,7 @@ export class VposService {
     return this.http.get(`${this.apiUrl}/products`).pipe(
       catchError((error) => {
         console.error('Error en getProducts:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al obtener productos');
       })
     );
   }
@@ -61,7 +61,7 @@ export class VposService {
     return this.http.get(`${this.apiUrl}/cart/details/${ID_Usuario}`).pipe(
       catchError((error) => {
         console.error('Error en obtenerDetalleCarrito:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al obtener detalle del carrito');
       })
     );
   }
@@ -70,7 +70,7 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/remove`, { ID_Usuario, ID_Producto }).pipe(
       catchError((error) => {
         console.error('Error en eliminarProductoCarrito:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al eliminar producto del carrito');
       })
     );
   }
@@ -79,7 +79,7 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/generarEntradaCarrito`, { ID_Carrito }).pipe(
       catchError((error) => {
         console.error('Error en generarEntradaCarrito:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al generar entrada del carrito');
       })
     );
   }
@@ -88,7 +88,7 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/obtenerDetalleCarritoPorCodigo`, { ID_Codigo }).pipe(
       catchError((error) => {
         console.error('Error en obtenerDetalleCarritoPorCodigo:', error);
-        return throwError(error);
+        return throwError(error.error.message || 'Error al obtener detalle del carrito por código');
       })
     );
   }
@@ -97,9 +97,8 @@ export class VposService {
     return this.http.post(`${this.apiUrl}/cart/aplicarCodigo`, { ID_Codigo, ID_Vendedor }).pipe(
         catchError((error) => {
             console.error('Error en aplicarCodigoCarrito:', error);
-            return throwError(error);
+            return throwError(error.error.message || 'Error al aplicar código al carrito');
         })
     );
 }
 }
-
